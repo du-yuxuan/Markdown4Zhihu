@@ -19,7 +19,7 @@ from shutil import copyfile
 ###############################################################################################################
 # GITHUB_REPO_PREFIX = Path("https://raw.githubusercontent.com/`YourUserName`/`YourRepoName`/master/Data/")
 # Your image folder remote link
-GITHUB_REPO_PREFIX = "https://raw.githubusercontent.com/miracleyoo/Markdown4Zhihu/master/Data/"
+GITHUB_REPO_PREFIX = "du-yuxuan"
 COMPRESS_THRESHOLD = 5e5 # The threshold of compression
 
 # The main function for this program
@@ -65,7 +65,7 @@ def rename_image_ref(m, original=True):
                 while op.exists(op.join(args.image_folder_path, img_name_new)):
                     img_name_new = img_stem+"_"+str(i)+img_suffix
                     i+=1
-            
+
             copyfile(full_img_path, op.join(args.image_folder_path, img_name_new))
             full_img_path = op.join(args.image_folder_path, img_name_new)
 
@@ -79,13 +79,13 @@ def rename_image_ref(m, original=True):
 
     if op.getsize(full_img_path)>COMPRESS_THRESHOLD and args.compress:
         full_img_path = reduce_single_image_size(full_img_path)
-    
+
     image_ref_name = Path(full_img_path).name
     args.used_images.append(image_ref_name)
 
     print('full_img_path',full_img_path)
     print('image_ref_name',image_ref_name)
-    
+
     if original:
         return "!["+m.group(1)+"]("+GITHUB_REPO_PREFIX+args.input.stem+"/"+image_ref_name+")"
     else:
@@ -146,6 +146,6 @@ if __name__ == "__main__":
         args.image_folder_path = op.join(args.current_script_data_path, args.input.stem)
         if not op.exists(args.image_folder_path):
             os.makedirs(args.image_folder_path)
-                     
+
         print(args.image_folder_path)
         process_for_zhihu()
